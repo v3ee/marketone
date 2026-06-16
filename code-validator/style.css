@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css2?family=Bitter:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --primary: #00a1d4;
+  --primaryDark: #0074a0;
+  --primarySoft: rgba(0, 161, 212, 0.18);
+  --primaryBorder: rgba(0, 161, 212, 0.28);
+  --bg: #060b14;
+  --bg2: #0b1220;
+  --panel: rgba(11, 18, 32, 0.72);
+  --panelStrong: rgba(11, 18, 32, 0.88);
+  --text: #e5eef7;
+  --muted: #93a4b8;
+  --border: rgba(255, 255, 255, 0.08);
+  --shadow: 0 12px 45px rgba(0, 0, 0, 0.45);
+  --white: #fff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Bitter", serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOPBAR / HEADER */
+.topbar {
+  padding: 10px 20px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo .main-logo {
+  height: 40px;
+}
+
+/* MAIN LAYOUT */
+.container {
+  flex: 1;
+  display: flex;
+}
+
+.left {
+  width: 60%;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+
+.right {
+  width: 40%;
+  padding: 20px;
+  overflow: auto;
+  background: var(--panel);
+}
+
+/* Toolbar */
+.toolbar {
+  padding: 10px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 0;
+  cursor: pointer;
+  border: 1px solid var(--primaryBorder);
+  background: var(--primarySoft);
+  color: var(--text);
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+button:hover {
+  background: var(--primarySoft);
+  border-color: var(--primary);
+}
+
+/* Editor & Output */
+#editor {
+  flex: 1;
+  background: var(--bg);
+}
+
+#output {
+  margin-top: 15px;
+  line-height: 1.6;
+  padding: 10px;
+  background: var(--panelStrong);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.error {
+  color: #ff6b6b;
+  margin-bottom: 10px;
+}
+
+.success {
+  color: #51cf66;
+}
+
+.fixed {
+  margin-top: 20px;
+  padding: 15px;
+  background: var(--panelStrong);
+  border: 1px solid var(--border);
+  overflow: auto;
+  border-radius: 4px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* FOOTER */
+.footer {
+  padding: 15px 0;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.footer .container {
+    justify-content: center;
+}
+.footer p {
+  text-align: center;
+  margin: 0;
+}

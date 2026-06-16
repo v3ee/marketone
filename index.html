@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketOne AI Studio</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo">
+    <img src="logo.png" alt="MarketOne" class="main-logo" />
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+    <div class="hero-section">
+        <h1>Welcome to MarketOne AI Studio</h1>
+        <p>How can I help today?</p>
+    </div>
+
+    <!-- CHAT MESSAGES -->
+    <div class="messages-container"></div>
+    
+    <!-- CHAT -->
+    <div class="chat-wrapper">
+        <textarea
+            class="chat-input"
+            placeholder="Paste HTML, upload document or ask anything..."
+            rows="1"></textarea>
+        <input type="file" id="fileInput" hidden accept=".pdf,.doc,.docx,.txt,.html,.htm,.xls,.xlsx">
+        <div class="chat-bottom">
+            <div class="left-actions">
+                <button class="action-btn attach-btn" title="Upload file">
+                    <i class="fa-solid fa-paperclip"></i>
+                </button>
+                <button class="action-btn" title="Code mode">
+                    <i class="fa-solid fa-code"></i>
+                </button>
+            </div>
+
+            <button class="send-btn" id="sendBtn">
+                <i class="fa-solid fa-paper-plane"></i>
+                Send
+            </button>
+        </div>
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div class="quick-actions">
+        <button class="quick-btn" onclick="location.href='./code-validator/'">
+            Code Validator
+        </button>
+        <button class="quick-btn" onclick="location.href='./certificate-generator/'">
+            Certificate Generator
+        </button>
+        <button class="quick-btn" onclick="location.href='./html-component-generator/'">
+            HTML Component Generator
+        </button>
+        <button class="quick-btn" onclick="location.href='./document-helper/'">
+            Document Helper
+        </button>
+        <button class="quick-btn" onclick="location.href='./email-validator/'">
+            Email Validator
+        </button>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <p>© MarketOne International <span id="currentYear"></span></p>
+    </div>
+</footer>
+
+<!-- JS -->
+<script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

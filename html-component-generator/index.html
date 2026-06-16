@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML Component Generator</title>
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    html, body { margin: 0; padding: 0; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="logo">
+      <a href="../" class="logo-link">
+        <img src="../logo.png" alt="MarketOne" class="main-logo" />
+      </a>
+    </div>
+  </div>
+
+  <main class="page">
+    <section class="panel hero-panel">
+      <div class="hero-head">
+        <div>
+          <h1>HTML Component Generator</h1>
+          <p>Paste or type your content, choose a layout, and generate a fresh responsive component on demand.</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field full">
+          <label for="contentInput">Content</label>
+          <textarea id="contentInput" rows="10" placeholder="Paste your content here..."></textarea>
+        </div>
+
+        <div class="field">
+          <label for="layoutSelect">Layout</label>
+          <select id="layoutSelect">
+            <option value="4">4 Column</option>
+            <option value="3">3 Column</option>
+            <option value="2">2 Column</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="designSelect">Design Style</label>
+          <select id="designSelect">
+            <option value="modern">Modern</option>
+            <option value="minimal">Minimal</option>
+            <option value="card">Card</option>
+            <option value="premium">Premium</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="toneInput">Tone / Goal</label>
+          <input id="toneInput" type="text" placeholder="Example: clean SaaS section" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="generateBtn" type="button">Generate HTML</button>
+        <button id="copyBtn" type="button" class="secondary">Copy HTML</button>
+        <button id="downloadBtn" type="button" class="secondary">Download HTML</button>
+      </div>
+
+      <div class="status-row">
+        <div id="status" class="status">Ready.</div>
+        <div id="tokenCount" class="token-count"></div>
+      </div>
+    </section>
+
+    <section class="results">
+      <div class="panel result-panel">
+        <div class="result-header">
+          <h2>Generated Code</h2>
+        </div>
+        <pre><code id="outputCode"></code></pre>
+      </div>
+
+      <div class="panel preview-panel">
+        <div class="result-header preview-header">
+          <h2>Live Preview</h2>
+          <div class="preview-toggle" role="tablist" aria-label="Preview mode">
+            <button id="desktopToggle" class="toggle-btn active" type="button">Desktop</button>
+            <button id="mobileToggle" class="toggle-btn" type="button">Mobile</button>
+          </div>
+        </div>
+
+        <div class="preview-stage">
+          <div id="desktopPreviewWrap" class="preview-view active">
+            <iframe id="desktopPreview" title="Desktop Preview" sandbox="allow-scripts allow-forms"></iframe>
+          </div>
+
+          <div id="mobilePreviewWrap" class="preview-view">
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <iframe id="mobilePreview" title="Mobile Preview" sandbox="allow-scripts allow-forms"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© MarketOne International <span id="currentYear"></span></p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MarketOne Email Validator</title>
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- TOPBAR / HEADER -->
+  <div class="topbar">
+    <div class="logo">
+      <a href="../" class="logo-link">
+        <img src="../logo.png" alt="MarketOne" class="main-logo" />
+      </a>
+    </div>
+  </div>
+
+  <main class="page">
+    <div class="container">
+      <h2>MarketOne Email Validator</h2>
+
+      <section class="card">
+        <h3>Single Email Validation</h3>
+        <div class="form-row">
+          <input type="email" id="email" placeholder="Enter Email" />
+          <button id="singleBtn" type="button">Validate Email</button>
+        </div>
+        <div id="singleResult" class="result-box"></div>
+      </section>
+
+      <section class="card">
+        <h3>Bulk Excel Validation</h3>
+        <div class="form-row">
+          <input type="file" id="excelFile" accept=".xlsx,.xls,.csv" />
+          <button id="bulkBtn" type="button">Upload & Validate</button>
+        </div>
+        <div id="bulkStatus" class="result-box"></div>
+
+        <div class="table-wrap">
+          <table id="resultTable">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <p>© MarketOne International <span id="currentYear"></span></p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
