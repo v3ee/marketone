@@ -10,8 +10,7 @@ const heroSection = document.querySelector(".hero-section");
 let uploadedContent = "";
 let isSending = false;
 
-// 🔴 YOUR GEMINI API KEY (Replace with your actual key)
-const API_KEY = "AIzaSyAoxzPHwhsT1UtoEndHlATrH878yiVtI2g";
+const API_KEY = "https://proud-sunset-cc1d.vijaykumarkvl-b.workers.dev";
 
 // Auto-resize textarea
 textarea.addEventListener('input', function() {
