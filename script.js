@@ -10,7 +10,7 @@ const heroSection = document.querySelector(".hero-section");
 let uploadedContent = "";
 let isSending = false;
 
-const API_KEY = "https://proud-sunset-cc1d.vijaykumarkvl-b.workers.dev";
+const ENDPOINT = "https://proud-sunset-cc1d.vijaykumarkvl-b.workers.dev";
 
 // Auto-resize textarea
 textarea.addEventListener('input', function() {
@@ -161,19 +161,17 @@ User Request:
 ${value}
 `;
 
-        // API CALL
-        const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`,
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    contents: [{
-                        parts: [{ text: finalPrompt }]
-                    }]
-                })
-            }
-        );
+        const response = await fetch(ENDPOINT, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{ text: finalPrompt }]
+                }]
+            })
+        });
 
         const data = await response.json();
         console.log("AI Response:", JSON.stringify(data, null, 2));
