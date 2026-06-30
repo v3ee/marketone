@@ -35,7 +35,7 @@ if (desktopToggle && mobileToggle) {
   });
 }
 
-const endpoint = "https://proud-sunset-cc1d.vijaykumarkvl-b.workers.dev";
+const ENDPOINT = "https://proud-sunset-cc1d.vijaykumarkvl-b.workers.dev";
 
 function setStatus(text) {
   statusEl.textContent = text;
