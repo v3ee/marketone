@@ -13,9 +13,10 @@ const sendBtn = document.getElementById("sendBtn");
 
 document.getElementById("currentYear").textContent = new Date().getFullYear();
 
-const pdfjsLib = window["pdfjs-dist/build/pdf"] || window.pdfjsLib;
+const pdfjsLib = window.pdfjsLib;
 if (pdfjsLib) {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = "./assets/pdfjs/pdf.worker.min.js";
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 }
 
 fileInput.addEventListener("change", handleFileUpload);
