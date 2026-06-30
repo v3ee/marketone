@@ -236,8 +236,7 @@ async function handleSendGemini() {
 }
 
 async function askGemini(question, signal) {
-  const API_KEY = "AIzaSyAoxzPHwhsT1UtoEndHlATrH878yiVtI2g";
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(API_KEY)}`;
+  const endpoint = "https://proud-sunset-cc1d.vijaykumarkvl-b.workers.dev";
 
   const documentContext = buildDocumentContext();
 
