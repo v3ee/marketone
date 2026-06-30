@@ -35,8 +35,7 @@ if (desktopToggle && mobileToggle) {
   });
 }
 
-const API_KEY = "AIzaSyAoxzPHwhsT1UtoEndHlATrH878yiVtI2g";
-const ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + encodeURIComponent(API_KEY);
+const endpoint = "https://proud-sunset-cc1d.vijaykumarkvl-b.workers.dev";
 
 function setStatus(text) {
   statusEl.textContent = text;
