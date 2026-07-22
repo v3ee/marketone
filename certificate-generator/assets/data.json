@@ -1,17 +1,57 @@
 [
     {
-        "id":"M1i120",
-        "name":"Vijay Kumar",
-        "image":"assets/images/vijay.png"
+        "id": "M1i276",
+        "name": "Abhinand Wilson",
+        "image": "assets/images/abhinandwilson.jpg"
     },
     {
-        "id":"M1i121",
-        "name":"Arun",
-        "image":"assets/images/arun.png"
+        "id": "M1i274",
+        "name": "Puneeth Nandkumar",
+        "image": "assets/images/puneethnandkumar.jpg"
     },
     {
-        "id":"M1i122",
-        "name":"Raj",
-        "image":"assets/images/raj.png"
+        "id": "M1i278",
+        "name": "Siddhartha Deb Sarma",
+        "image": "assets/images/siddharthadebsarma.png"
+    },
+    {
+        "id": "M1i171",
+        "name": "Brahmesh Aptekar",
+        "image": "assets/images/brahmeshaptekar.png"
+    },
+    {
+        "id": "M1i120",
+        "name": "Vijay Kumar B",
+        "image": "assets/images/vijaykumarb.png"
+    },
+    {
+        "id": "M1i162",
+        "name": "Anikesh Kumar",
+        "image": "assets/images/anikeshkumar.jpg"
+    },
+    {
+        "id": "M1i272",
+        "name": "Ayush Prakash",
+        "image": "assets/images/ayushprakash.jpg"
+    },
+    {
+        "id": "M1i183",
+        "name": "Joseph Nirmal",
+        "image": "assets/images/josephnirmal.jpg"
+    },
+    {
+        "id": "M1i223",
+        "name": "Uthappa Bopaiah",
+        "image": "assets/images/uthappabopaiah.png"
+    },
+    {
+        "id": "M1i275",
+        "name": "Ranjani Soundirarajan",
+        "image": "assets/images/ranjanisoundirarajan.jpg"
+    },
+    {
+        "id": "M1i170",
+        "name": "Arun Kumar",
+        "image": "assets/images/arunkumar.png"
     }
 ]
