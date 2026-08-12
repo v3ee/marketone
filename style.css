@@ -264,6 +264,77 @@ body::after {
     transform: none;
 }
 
+/* SECURITY ASSESSMENT CTA */
+.security-assessment-strip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #00a1d4;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 9px 16px;
+    border-radius: 20px;
+    white-space: nowrap;
+    position: fixed;
+    top: 20px;
+    right: 22px;
+    z-index: 999999;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 161, 212, 0.30);
+    transition: all 0.25s ease;
+}
+
+.security-assessment-strip:hover {
+    background: #0074a0;
+    color: #ffffff;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 161, 212, 0.40);
+}
+
+.security-assessment-strip::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -60px;
+    width: 40px;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(255,255,255,0),
+        rgba(255,255,255,.55),
+        rgba(255,255,255,0)
+    );
+    transform: skewX(-25deg);
+    animation: securityShine 3s linear infinite;
+}
+
+@keyframes securityShine {
+    0% {
+        left: -60px;
+    }
+
+    100% {
+        left: 180px;
+    }
+}
+
+.security-assessment-strip strong {
+    color: #ffffff;
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .security-assessment-strip {
+        top: 12px;
+        right: 12px;
+        font-size: 10px;
+        padding: 7px 11px;
+    }
+}
+
 .quick-actions {
     display: flex;
     gap: 10px;
