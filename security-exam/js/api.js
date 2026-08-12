@@ -47,4 +47,7 @@ const API = {
 
   adminResults: (token) =>
     apiGet("/api/admin/results", { Authorization: `Bearer ${token}` }),
+
+  adminDeleteResult: (token, session_id) =>
+    apiPost("/api/admin/delete-result", { session_id }, { Authorization: `Bearer ${token}` }),
 };
