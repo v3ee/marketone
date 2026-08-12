@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assessment in progress — MarketOne</title>
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="css/exam.css" />
+</head>
+<body>
+
+<div class="topbar">
+  <div class="exam-topbar-inner">
+    <div class="logo">
+      <img src="../logo.png" alt="MarketOne" class="main-logo" />
+    </div>
+    <div class="timer" id="timer">30:00</div>
+  </div>
+</div>
+
+<div class="exam-main">
+  <div class="exam-container">
+
+    <div class="section-track" id="section-track"></div>
+
+    <!-- Loading -->
+    <div class="exam-card" id="loading-card">
+      <div class="loading-row">
+        <div class="spinner"></div>
+        <span id="loading-label">Preparing your next section...</span>
+      </div>
+    </div>
+
+    <!-- Active question -->
+    <div class="exam-card hidden" id="question-card">
+      <div class="eyebrow" id="section-label" style="color:var(--primary);font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;">Section</div>
+      <div class="q-count" id="q-count">Question 1 of 6</div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      <h2 id="question-text" style="margin-bottom:16px;">Question text</h2>
+      <div id="options-container"></div>
+      <p class="error-text" id="question-error"></p>
+      <button type="button" class="exam-btn-primary" id="next-btn" disabled>Next</button>
+    </div>
+
+    <!-- Section complete -->
+    <div class="exam-card hidden" id="section-complete-card">
+      <div class="eyebrow" id="complete-label" style="color:var(--primary);font-size:13px;letter-spacing:.08em;text-transform:uppercase;text-align:center;margin-bottom:8px;">Section complete</div>
+      <div class="score-hero">
+        <div class="value" id="section-score">83%</div>
+        <div class="label" id="section-score-detail">5 of 6 correct</div>
+      </div>
+      <button type="button" class="exam-btn-primary" id="next-section-btn">Take next test</button>
+    </div>
+
+    <!-- Time up -->
+    <div class="exam-card hidden" id="timeup-card">
+      <div class="eyebrow" style="color:#f5b342;font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;">Time expired</div>
+      <h2>Time is up.</h2>
+      <p>Your assessment is being submitted automatically with what you've completed so far.</p>
+      <div class="loading-row"><div class="spinner"></div><span>Submitting...</span></div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>The server enforces the exam deadline — this timer is for your reference only.</p>
+  </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/exam.js"></script>
+</body>
+</html>

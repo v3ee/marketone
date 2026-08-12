@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cybersecurity Awareness Assessment — MarketOne</title>
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="css/exam.css" />
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">
+    <a href="../index.html" class="logo-link">
+      <img src="../logo.png" alt="MarketOne" class="main-logo" />
+    </a>
+  </div>
+</div>
+
+<div class="exam-main">
+  <div class="exam-container">
+
+    <div class="exam-card hidden" id="result-card">
+      <div class="eyebrow" style="color:var(--primary);font-size:13px;letter-spacing:.08em;text-transform:uppercase;text-align:center;margin-bottom:8px;">Assessment complete</div>
+      <h1 id="employee-name" style="text-align:center;margin-bottom:4px;">—</h1>
+
+      <div class="score-hero">
+        <div class="value" id="overall-score">—</div>
+        <div class="label">Overall score</div>
+      </div>
+
+      <div id="section-scores"></div>
+
+      <div class="stat-grid">
+        <div class="stat-box"><div class="num" id="stat-total">0</div><div class="lbl">Questions</div></div>
+        <div class="stat-box"><div class="num" id="stat-correct">0</div><div class="lbl">Correct</div></div>
+        <div class="stat-box"><div class="num" id="stat-time">00:00</div><div class="lbl">Time taken</div></div>
+      </div>
+
+      <p style="margin-top:20px;font-size:13px;display:none;" id="partial-note">
+        This assessment was submitted before all sections were completed because the 30-minute time limit was reached.
+      </p>
+    </div>
+
+    <div class="exam-card hidden" id="empty-card">
+      <div class="eyebrow" style="color:var(--primary);font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;">No results found</div>
+      <h2 style="margin-bottom:10px;">We couldn't find a recent assessment result.</h2>
+      <p>This can happen if the results page is opened directly, or after the browser session ends.</p>
+      <a href="index.html"><button type="button" class="exam-btn-secondary">Start a new assessment</button></a>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>Your results have been recorded. You may close this window.</p>
+  </div>
+</footer>
+
+<script src="js/result.js"></script>
+</body>
+</html>
