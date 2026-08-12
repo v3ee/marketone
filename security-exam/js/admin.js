@@ -19,6 +19,7 @@ const tokenError = document.getElementById("token-error");
 const accessBtn = document.getElementById("access-btn");
 const logoutBtn = document.getElementById("logout-btn");
 const refreshBtn = document.getElementById("refresh-btn");
+const exportBtn = document.getElementById("export-btn");
 
 const searchInput = document.getElementById("search-input");
 const resultCountEl = document.getElementById("result-count");
@@ -33,7 +34,7 @@ let allEmployees = [];
 let filteredEmployees = [];
 let currentPage = 1;
 let pageSize = 20;
-let openAccordionKeys = new Set(); // preserves open/closed state across re-renders
+let openAccordionKeys = new Set();
 
 if (adminToken) {
   attemptLoad(adminToken);
@@ -54,8 +55,24 @@ logoutBtn.addEventListener("click", () => {
   tokenInput.value = "";
 });
 
-refreshBtn.addEventListener("click", () => {
-  if (adminToken) attemptLoad(adminToken);
+refreshBtn.addEventListener("click", async () => {
+  if (!adminToken) return;
+
+  refreshBtn.classList.add("is-refreshing");
+  refreshBtn.disabled = true;
+
+  employeeListEl.classList.add("results-refreshing");
+
+  try {
+    await attemptLoad(adminToken);
+  } finally {
+    employeeListEl.classList.remove("results-refreshing");
+
+    setTimeout(() => {
+      refreshBtn.classList.remove("is-refreshing");
+      refreshBtn.disabled = false;
+    }, 500);
+  }
 });
 
 searchInput.addEventListener("input", () => {
@@ -97,24 +114,15 @@ function render(data) {
   allEmployees = employees;
   currentPage = 1;
   openAccordionKeys = new Set();
+  const passed = allEmployees.filter(
+    employee => Number(employee.overall_score || 0) >= 70
+  ).length;
 
   document.getElementById("stat-employees").textContent = stats.total_employees;
   document.getElementById("stat-average").textContent = `${stats.average_overall}%`;
+  document.getElementById("stat-passed").textContent = passed;
   document.getElementById("stat-risk").textContent = stats.below_threshold;
   document.getElementById("stat-risk-label").textContent = `Below ${stats.risk_threshold}%`;
-
-  // const avgContainer = document.getElementById("section-averages");
-  // avgContainer.innerHTML = "";
-  // SECTION_ORDER.forEach((key) => {
-  //   const avg = stats.section_averages[key];
-  //   const row = document.createElement("div");
-  //   row.className = "score-row";
-  //   row.innerHTML = `
-  //     <div class="name">${SECTION_LABELS[key]}</div>
-  //     <div class="pct ${avg === null ? "" : scoreClass(avg)}">${avg === null ? "—" : avg + "%"}</div>`;
-  //   avgContainer.appendChild(row);
-  // });
-
   applyFilter();
   renderList();
 }
@@ -296,6 +304,70 @@ function paginationRange(current, total) {
   }
 
   return rangeWithDots;
+}
+
+exportBtn.addEventListener("click", () => {
+  if (!allEmployees.length) {
+    alert("There are no employee results to export.");
+    return;
+  }
+
+  exportEmployeeResults();
+});
+
+
+function exportEmployeeResults() {
+  const rows = allEmployees.map((emp) => ({
+    "Employee Name": emp.name || "",
+    "Email": emp.email || "",
+    "Overall Score": `${emp.overall_score || 0}%`,
+    "Phishing": formatExcelScore(emp.scores?.phishing),
+    "Password Security": formatExcelScore(emp.scores?.password_security),
+    "Social Engineering": formatExcelScore(emp.scores?.social_engineering),
+    "Data Protection": formatExcelScore(emp.scores?.data_protection),
+    "AI Threats": formatExcelScore(emp.scores?.ai_threats),
+    "Completed": emp.completed_all ? "Yes" : "No",
+    "Date": formatDate(emp.completed_at),
+    "Time Taken": emp.time_taken_display || ""
+  }));
+
+  const worksheet = XLSX.utils.json_to_sheet(rows);
+
+  const workbook = XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    worksheet,
+    "Employee Results"
+  );
+
+  // Set useful column widths
+  worksheet["!cols"] = [
+    { wch: 22 },
+    { wch: 32 },
+    { wch: 15 },
+    { wch: 14 },
+    { wch: 22 },
+    { wch: 23 },
+    { wch: 20 },
+    { wch: 14 },
+    { wch: 22 },
+    { wch: 16 }
+  ];
+
+  const date = new Date().toISOString().slice(0, 10);
+
+  XLSX.writeFile(
+    workbook,
+    `MarketOne-Security-Awareness-Results-${date}.xlsx`
+  );
+}
+
+
+function formatExcelScore(score) {
+  return score === undefined || score === null
+    ? ""
+    : `${score}%`;
 }
 
 function scoreClass(score) {
