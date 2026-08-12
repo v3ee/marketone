@@ -203,13 +203,56 @@ function buildAccordionItem(emp) {
     <div class="employee-accordion-body">
       <div class="employee-accordion-body-inner">
         ${rows}
-        <div class="employee-meta" style="margin-top:14px;">Completed ${formatDate(emp.completed_at)} · ${emp.time_taken_display || "—"}${emp.completed_all ? "" : " · Partial (time expired)"}</div>
+        <div class="employee-meta" style="margin-top:14px;">
+          Completed ${formatDate(emp.completed_at)} · ${emp.time_taken_display || "—"}${emp.completed_all ? "" : " · Partial (time expired)"}
+        </div>
+
+        <div style="margin-top:18px;">
+          <button
+            type="button"
+            class="delete-result-btn"
+            data-session-id="${escapeHtml(emp.session_id)}">
+            Delete Result
+          </button>
+        </div>
       </div>
     </div>
   `;
 
   const header = item.querySelector(".employee-accordion-header");
   const body = item.querySelector(".employee-accordion-body");
+  const deleteBtn = item.querySelector(".delete-result-btn");
+  deleteBtn.addEventListener("click", async (e) => {
+    e.stopPropagation();
+    const sessionId = deleteBtn.dataset.sessionId;
+    const confirmed = confirm(
+      `Are you sure you want to delete ${emp.name}'s result?\n\nThis action cannot be undone.`
+    );
+    if (!confirmed) {
+      return;
+    }
+    deleteBtn.disabled = true;
+    deleteBtn.textContent = "Deleting...";
+    try {
+      await API.adminDeleteResult(adminToken, sessionId);
+      // Remove from local data
+      allEmployees = allEmployees.filter(
+        employee => employee.session_id !== sessionId
+      );
+      // Recalculate the filtered list and dashboard
+      applyFilter();
+      updateStats();
+      // Re-render the employee list
+      renderList();
+    } catch (error) {
+      console.error(error);
+      alert(
+        error.message || "Unable to delete the employee result."
+      );
+      deleteBtn.disabled = false;
+      deleteBtn.textContent = "Delete Result";
+    }
+  });
 
   header.addEventListener("click", () => {
     const nowOpen = !item.classList.contains("open");
@@ -231,6 +274,35 @@ function buildAccordionItem(emp) {
   }
 
   return item;
+}
+
+function updateStats() {
+  const total = allEmployees.length;
+  const average =
+    total > 0
+      ? Math.round(
+          allEmployees.reduce(
+            (sum, employee) =>
+              sum + Number(employee.overall_score || 0),
+            0
+          ) / total
+        )
+      : 0;
+  const belowThreshold = allEmployees.filter(
+    employee =>
+      Number(employee.overall_score || 0) < 70
+  ).length;
+  const passed = allEmployees.filter(
+    employee =>
+      Number(employee.overall_score || 0) >= 70
+  ).length;
+  document.getElementById("stat-employees").textContent = total;
+  document.getElementById("stat-average").textContent =
+    `${average}%`;
+  document.getElementById("stat-risk").textContent =
+    belowThreshold;
+  document.getElementById("stat-passed").textContent =
+    passed;
 }
 
 function renderPagination(totalPages, start, pageCount) {
@@ -363,7 +435,6 @@ function exportEmployeeResults() {
   );
 }
 
-
 function formatExcelScore(score) {
   return score === undefined || score === null
     ? ""
@@ -397,3 +468,4 @@ function escapeHtml(str) {
   div.textContent = str;
   return div.innerHTML;
 }
+
