@@ -272,7 +272,7 @@ body::after {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primaryDark) 100%);;
     color: #ffffff;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 200;
     text-decoration: none;
     padding: 10px 18px;
     border-radius: 20px;
@@ -287,7 +287,6 @@ body::after {
 }
 
 .security-assessment-strip:hover {
-    background: #0074a0;
     color: #ffffff;
     text-decoration: none;
     transform: translateY(-2px);
