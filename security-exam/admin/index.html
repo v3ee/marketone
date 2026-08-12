@@ -40,14 +40,26 @@
     <div class="hidden" id="dashboard">
       <div class="admin-header">
         <h1 style="margin:0;">Employee Results</h1>
-        <button type="button" class="exam-btn-secondary" id="logout-btn" style="width:auto;">Lock</button>
+        <div class="admin-header-actions">
+          <button type="button" class="exam-btn-secondary" id="refresh-btn" style="width:auto;">
+            <span class="refresh-icon">↻</span>
+            Refresh
+          </button>
+          <button type="button" class="exam-btn-secondary" id="export-btn" style="width:auto;">
+            <span>↓</span>
+            Export Excel
+          </button>
+          <button type="button" class="exam-btn-secondary" id="logout-btn" style="width:auto;">
+            Lock
+          </button>
+        </div>
       </div>
 
       <div class="admin-stats">
         <div class="stat-box"><div class="num" id="stat-employees">0</div><div class="lbl">Completed</div></div>
         <div class="stat-box"><div class="num" id="stat-average">0%</div><div class="lbl">Average score</div></div>
         <div class="stat-box"><div class="num" id="stat-risk">0</div><div class="lbl" id="stat-risk-label">Below 70%</div></div>
-        <div class="stat-box"><div class="num" style="color:var(--primary);cursor:pointer;" id="refresh-btn">↻</div><div class="lbl">Refresh</div></div>
+        <div class="stat-box"> <div class="num" id="stat-passed">0</div><div class="lbl">Passed</div></div>
       </div>
 
       <div style="margin-top:24px;">
@@ -85,6 +97,7 @@
 </footer>
 
 <script src="../js/api.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script src="../js/admin.js"></script>
 </body>
 </html>
