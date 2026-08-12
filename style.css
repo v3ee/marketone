@@ -269,12 +269,12 @@ body::after {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: #00a1d4;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primaryDark) 100%);;
     color: #ffffff;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
     text-decoration: none;
-    padding: 9px 16px;
+    padding: 10px 18px;
     border-radius: 20px;
     white-space: nowrap;
     position: fixed;
