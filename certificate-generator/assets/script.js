@@ -1,4 +1,3 @@
-
 document.getElementById("currentYear").textContent = new Date().getFullYear();
 
 $(document).ready(function() {
@@ -464,20 +463,14 @@ $(document).ready(function() {
 
             const award = awards[i];
 
-            let imageWidth = 220;
+            const imageWidth = 220; // fixed size for every photo, so all cards line up
             const imageHeight = 240;
 
             try {
 
                 const photo = await loadUserPhoto(award.photo);
 
-                const aspectRatio =
-                    photo.width / photo.height;
-
-                imageWidth =
-                    imageHeight * aspectRatio;
-
-                drawRoundedImage(
+                drawRoundedImageCover(
                     ctx,
                     photo,
                     80,
@@ -494,8 +487,8 @@ $(document).ready(function() {
                 ctx.fillRect(
                     80,
                     currentY,
-                    220,
-                    220
+                    imageWidth,
+                    imageHeight
                 );
             }
 
@@ -827,6 +820,45 @@ $(document).ready(function() {
         ctx.closePath();
         ctx.clip();
         ctx.drawImage(img, x, y, width, height);
+        ctx.restore();
+    }
+
+    // Draws the image cropped to fill the target box (like CSS object-fit: cover),
+    // so every photo ends up the same width/height regardless of its original aspect ratio.
+    function drawRoundedImageCover(ctx, img, x, y, width, height, radius) {
+        const targetRatio = width / height;
+        const sourceRatio = img.width / img.height;
+
+        let sx, sy, sWidth, sHeight;
+
+        if (sourceRatio > targetRatio) {
+            // source is wider than target box -> crop left/right
+            sHeight = img.height;
+            sWidth = sHeight * targetRatio;
+            sx = (img.width - sWidth) / 2;
+            sy = 0;
+        } else {
+            // source is taller than target box -> crop top/bottom
+            sWidth = img.width;
+            sHeight = sWidth / targetRatio;
+            sx = 0;
+            sy = (img.height - sHeight) / 2;
+        }
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(img, sx, sy, sWidth, sHeight, x, y, width, height);
         ctx.restore();
     }
 
