@@ -324,7 +324,10 @@ body {
 .winner-photo-preview {
   margin-top: 16px;
   border-radius: 18px;
-  max-width: 180px;
+  width: 180px;
+  height: 196px; /* same ~220:240 ratio as the poster photo box, so the preview matches what actually gets drawn */
+  object-fit: cover;
+  object-position: center;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
 }
 
