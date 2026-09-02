@@ -146,14 +146,50 @@ function joinMultilineTags(code) {
 }
 
 // =========================
+// FIX OUTSIDE QUOTES
+// Applies a regex fix only to the parts of a line that sit OUTSIDE any
+// "..." quoted attribute value, so fixes meant for bare/unquoted
+// attributes don't corrupt text that happens to look similar but is
+// actually inside another attribute's value (e.g. onclick="...href=...").
+// =========================
+function fixOutsideQuotes(line, regex, replacement) {
+    const parts = line.split('"');
+    for (let i = 0; i < parts.length; i += 2) { // even indices = outside quotes
+        parts[i] = parts[i].replace(regex, replacement);
+    }
+    return parts.join('"');
+}
+
+// =========================
 // PRE-CHECK HTML ISSUES
 // Catches things HTMLHint silently misses
 // =========================
 function preCheckHTML(code) {
     const errors = [];
     const lines = code.split("\n");
+
+    // Tracks an opening tag whose line didn't end in > yet (mirrors the
+    // buffering logic in joinMultilineTags, so we flag it at the SAME
+    // point the fixer would consider it broken — the line it started on).
+    let openBuffer = null;
+
     lines.forEach((line, i) => {
         const trimmed = line.trim();
+
+        if (openBuffer !== null) {
+            // A new tag or comment starting before the buffered tag closed
+            // means the buffered tag was never actually terminated.
+            if ((trimmed.startsWith("<") && !trimmed.startsWith("</")) || trimmed.startsWith("<!--")) {
+                errors.push(`❌ Line ${openBuffer.startLine}<br><br>Opening tag not terminated — missing <code>&gt;</code> before the next tag starts. e.g. <code>&lt;div class="main"</code> should be <code>&lt;div class="main"&gt;</code>`);
+                openBuffer = null;
+            } else if (trimmed.includes(">")) {
+                // Legitimately closes on a later line (e.g. one attribute
+                // per line) — not an error.
+                openBuffer = null;
+            }
+            // else: still mid multi-line attribute list, keep buffering
+        }
+
         if (trimmed === "" || trimmed.startsWith("<!--") || trimmed.startsWith("<!")) return;
 
         // Unclosed attribute quote at end of line
@@ -179,7 +215,17 @@ function preCheckHTML(code) {
         ) {
             errors.push(`❌ Line ${i + 1}<br><br>Self-closing tag missing <code>&gt;</code> — e.g. <code>/</code> should be <code>/&gt;</code>`);
         }
+
+        // Detect a fresh opening tag line that doesn't terminate with > yet
+        if (openBuffer === null && trimmed.startsWith("<") && !trimmed.startsWith("</")) {
+            const opens = (trimmed.match(/</g) || []).length;
+            const closes = (trimmed.match(/>/g) || []).length;
+            if (opens > closes) {
+                openBuffer = { startLine: i + 1 };
+            }
+        }
     });
+
     return errors;
 }
 
@@ -217,7 +263,12 @@ async function validateCode() {
                 let message = error.message;
                 if (message.includes("Tag must be paired")) message = "Missing closing tag detected.";
                 if (message.includes("Special characters")) message = "Broken HTML syntax detected.";
-                output.innerHTML += `<div class="error">❌ Line ${error.line}<br><br>${message}</div>`;
+                // NOTE: HTMLHint's own line tracking is unreliable on malformed/
+                // broken HTML (it has no real error-recovery), so its reported
+                // line number can point at the wrong place. Rather than show a
+                // number that might mislead you, we just show the message —
+                // use "Apply Fix" to have it corrected automatically.
+                output.innerHTML += `<div class="error">❌ ${message}</div>`;
             });
             document.getElementById("fixBtn").style.display = "inline-block";
         }
@@ -376,7 +427,10 @@ async function applyFix() {
             line = line.replace(/(class|id)="([^">]+)>/g, '$1="$2">');
 
             // FIX 13: unquoted attributes
-            line = line.replace(/\b(class|id|src|href|type|name|value)=([^\s">]+)/g, '$1="$2"');
+            // Only touch text OUTSIDE existing "..." attribute values —
+            // otherwise something like onclick="location.href='x'" gets
+            // its inner href= mistaken for a bare attribute and corrupted.
+            line = fixOutsideQuotes(line, /\b(class|id|src|href|type|name|value)=([^\s">]+)/g, '$1="$2"');
 
             // FIX 14: </tagname without > at end of line
             line = line.replace(/<\/([a-zA-Z0-9]+)\s*$/g, "</$1>");
