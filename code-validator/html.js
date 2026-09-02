@@ -73,15 +73,20 @@ function preClean(code) {
             }
         }
 
-        // FIX 3: unclosed attribute quote at end of line (odd quote count)
-        // href="style.css  →  href="style.css"
+        // FIX 3: unclosed attribute quote (odd quote count on the line).
+        // An odd number of " chars ALWAYS means a quote never got closed —
+        // even when the line ends in ">" or "/>", because in that case the
+        // trailing bracket is actually trapped INSIDE the unterminated
+        // quote (e.g. href="style.css>), not really closing the tag.
         const quoteCount = (line.match(/"/g) || []).length;
-        if (
-            quoteCount % 2 !== 0 &&
-            !trimmed.endsWith(">") &&
-            !trimmed.endsWith("/>")
-        ) {
-            line = line.trimEnd() + '"';
+        if (quoteCount % 2 !== 0) {
+            if (trimmed.endsWith("/>")) {
+                line = line.replace(/\/>\s*$/, '" />');
+            } else if (trimmed.endsWith(">")) {
+                line = line.replace(/>\s*$/, '">');
+            } else {
+                line = line.trimEnd() + '"';
+            }
         }
 
         return line;
@@ -192,14 +197,13 @@ function preCheckHTML(code) {
 
         if (trimmed === "" || trimmed.startsWith("<!--") || trimmed.startsWith("<!")) return;
 
-        // Unclosed attribute quote at end of line
+        // Unclosed attribute quote anywhere on the line (odd quote count).
+        // Still counts even if the line ends in ">" or "/>" — that trailing
+        // bracket is then trapped inside the unterminated quote rather than
+        // actually closing the tag.
         const quoteCount = (trimmed.match(/"/g) || []).length;
-        if (
-            quoteCount % 2 !== 0 &&
-            !trimmed.endsWith(">") &&
-            !trimmed.endsWith("/>")
-        ) {
-            errors.push(`❌ Line ${i + 1}<br><br>Unclosed attribute quote — e.g. <code>href="style.css</code> is missing the closing <code>"</code>`);
+        if (quoteCount % 2 !== 0) {
+            errors.push(`❌ Line ${i + 1}<br><br>Unclosed attribute quote — e.g. <code>href="style.css></code> is missing the closing <code>"</code> before the <code>&gt;</code>`);
         }
 
         // Closing tag missing >
