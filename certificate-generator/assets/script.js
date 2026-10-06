@@ -494,15 +494,17 @@ $(document).ready(function() {
 
             // Employee Name
             ctx.fillStyle = '#00A1D4';
-
             ctx.font = 'bold 30px Bitter';
-
             ctx.textAlign = 'center';
 
-            ctx.fillText(
+            wrapTextCentered(
+                ctx,
                 award.name,
                 80 + (imageWidth / 2),
-                currentY + 290
+                currentY + 290,
+                280,
+                35,
+                2
             );
 
             // Award Title
@@ -902,6 +904,37 @@ $(document).ready(function() {
             }
         }
         ctx.fillText(line.trim(), x, currentY);
+    }
+
+    function wrapTextCentered(ctx, text, x, y, maxWidth, lineHeight, maxLines = 2) {
+        const words = text.split(' ');
+        const lines = [];
+        let line = '';
+
+        for (const word of words) {
+            const testLine = line ? line + ' ' + word : word;
+
+            if (ctx.measureText(testLine).width > maxWidth && line) {
+                lines.push(line);
+                line = word;
+            } else {
+                line = testLine;
+            }
+        }
+
+        if (line) {
+            lines.push(line);
+        }
+
+        const displayLines = lines.slice(0, maxLines);
+
+        displayLines.forEach((line, index) => {
+            ctx.fillText(
+                line,
+                x,
+                y + (index * lineHeight)
+            );
+        });
     }
 
     function getQuarterText(quarter, year) {
