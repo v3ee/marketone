@@ -541,8 +541,8 @@ $(document).ready(function() {
 
             ctx.beginPath();
 
-            ctx.moveTo(70, currentY + 340);
-            ctx.lineTo(1500, currentY + 340);
+            ctx.moveTo(70, currentY + 380);
+            ctx.lineTo(1500, currentY + 380);
 
             ctx.stroke();
 
